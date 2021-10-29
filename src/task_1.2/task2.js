@@ -1,28 +1,37 @@
 const csv = require('csvtojson');
 const { pipeline } = require('stream/promises');
-const path = require('path');
-const fs = require('fs');
-const fsPromises = require('fs').promises;
+const { join } = require('path');
+const {
+  createReadStream,
+  createWriteStream,
+  existsSync,
+  promises
+} = require('fs');
 
-const readableStream = fs.createReadStream(path.join(__dirname, 'csv/nodejs-hw1-ex1.csv'));
-const writableStream = fs.createWriteStream(path.join(__dirname, 'txt/nodejs-hw1-ex1.txt'));
+const readFilePath = 'csv/nodejs-hw1-ex1.csv';
+const writeFilePath = 'txt/nodejs-hw1-ex1.txt';
+const writeDirectoryExists = existsSync(join(__dirname, 'txt'));
+const csvOptions = {
+  noheader: false,
+  headers: ['book', 'author', 'amount', 'price'],
+  colParser: {
+    amount: 'omit'
+  }
+};
 
-const writeConvertedCsvToTxtFile = async () =>  {
-  if (!fs.existsSync(path.join(__dirname, 'txt'))) {
-    await fsPromises.mkdir(path.join(__dirname, 'txt'))
+const readableStream = createReadStream(join(__dirname, readFilePath));
+const writableStream = createWriteStream(join(__dirname, writeFilePath));
+
+const writeConvertedCsvToTxtFile = async () => {
+  if (!writeDirectoryExists) {
+    await promises.mkdir(join(__dirname, 'txt'));
   }
 
   await pipeline(
     readableStream,
-    csv({
-      noheader: false,
-      headers: ['book','author','amount','price'],
-      colParser:{
-        "amount":"omit",
-      },
-    }),
+    csv(csvOptions),
     writableStream
   );
-}
+};
 
 writeConvertedCsvToTxtFile().catch(console.error);
