@@ -1,0 +1,44 @@
+{
+  "name": "js-training",
+  "config": {
+    "port": "8080"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:js": "babel src -d dist --presets es2015",
+    "watch:js": "chokidar src/**/*.js -c \"npm run build:js\"",
+    "task1": "nodemon src/task_1.1/task1",
+    "task2": "nodemon src/task_1.2/task2 --ext js",
+    "task1_es6": "nodemon --exec babel-node src/task_1.3/task1_es6.js",
+    "task2_es6": "nodemon --exec babel-node src/task_1.3/task2_es6.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manisureal/node-js-training.git"
+  },
+  "author": "Mansoor Zaman",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  },
+  "volta": {
+    "node": "16.10.0"
+  },
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Manisureal/node-js-training/issues"
+  },
+  "homepage": "https://github.com/Manisureal/node-js-training#readme"
+}
